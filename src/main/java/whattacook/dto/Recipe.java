@@ -75,6 +75,14 @@ public class Recipe {
 		this.text = text;
 	}
 
+	public Set<Ingredient> getIsMadeWith() {
+		return isMadeWith;
+	}
+
+	public void setIsMadeWith(Set<Ingredient> isMadeWith) {
+		this.isMadeWith = isMadeWith;
+	}
+
 	@Override
 	public String toString() {
 		return "Recipe [id=" + id + ", title=" + title + ", text=" + text + "]";

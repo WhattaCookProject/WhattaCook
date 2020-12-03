@@ -24,23 +24,13 @@ CREATE TABLE IF NOT EXISTS `whattacook`.`recipe` (
     );
 
 -- -----------------------------------------------------
--- Table `whattacook`.`ingredient_has_recipe`
+-- Table `whattacook`.`recipe_ingredient`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `whattacook`.`ingredient_has_recipe` (
-  `ingredient_idingredient` INT NOT NULL,
-  `recipe_idrecipe` INT NOT NULL,
-  PRIMARY KEY (`ingredient_idingredient`, `recipe_idrecipe`),
-  INDEX `fk_ingredient_has_recipe_recipe1_idx` (`recipe_idrecipe` ASC) VISIBLE,
-  INDEX `fk_ingredient_has_recipe_ingredient_idx` (`ingredient_idingredient` ASC) VISIBLE,
-  CONSTRAINT `fk_ingredient_has_recipe_ingredient`
-    FOREIGN KEY (`ingredient_idingredient`)
-    REFERENCES `whattacook`.`ingredient` (`idingredient`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ingredient_has_recipe_recipe1`
-    FOREIGN KEY (`recipe_idrecipe`)
-    REFERENCES `whattacook`.`recipe` (`idrecipe`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-    )
+CREATE TABLE `recipe_ingredient` (
+  `idrecipe` int(11) NOT NULL,
+  `idingredient` int(11) NOT NULL,
+  PRIMARY KEY (`idrecipe`,`idingredient`),
+  FOREIGN KEY (`idrecipe`) REFERENCES recipe(`idrecipe`),
+  FOREIGN KEY (`idingredient`) REFERENCES ingredient(`idingredient`)
+)  
 

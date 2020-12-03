@@ -1,6 +1,5 @@
 package whattacook.dto;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="ingredient")
@@ -22,7 +23,7 @@ public class Ingredient {
 	@Column(name="name")
 	private String name;
 	
-	
+	@JsonIgnore
 	@ManyToMany (mappedBy = "isMadeWith")
 	private Set<Recipe> isUsedIn;
 
@@ -49,7 +50,14 @@ public class Ingredient {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public Set<Recipe> getIsUsedIn() {
+		return isUsedIn;
+	}
+
+	public void setIsUsedIn(Set<Recipe> isUsedIn) {
+		this.isUsedIn = isUsedIn;
+	}	
 	
 }
 
