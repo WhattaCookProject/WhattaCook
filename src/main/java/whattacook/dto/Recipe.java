@@ -1,10 +1,15 @@
 package whattacook.dto;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +17,7 @@ import javax.persistence.Table;
 public class Recipe {
 	
 	@Id
+	@Column(name="idrecipe") //TODO modified from dev
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
@@ -20,14 +26,29 @@ public class Recipe {
 	
 	@Column(name="text")
 	private String text;
+	
+	@ManyToMany
+	@JoinTable(
+			  name = "recipe_ingredient", 
+			  joinColumns = @JoinColumn(name = "idrecipe"), 
+			  inverseJoinColumns = @JoinColumn(name = "idingredient"))
+	private Set<Ingredient> isMadeWith;
 
 	public Recipe() {}
 
-	public Recipe(long id, String title, String text) {
+	/*public Recipe(long id, String title, String text) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.text = text;
+	}*/
+	
+	public Recipe(long id, String title, String text, Set<Ingredient> ing) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.text = text;
+		this.isMadeWith = ing;
 	}
 
 	public long getId() {
@@ -52,6 +73,14 @@ public class Recipe {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Set<Ingredient> getIsMadeWith() {
+		return isMadeWith;
+	}
+
+	public void setIsMadeWith(Set<Ingredient> isMadeWith) {
+		this.isMadeWith = isMadeWith;
 	}
 
 	@Override
