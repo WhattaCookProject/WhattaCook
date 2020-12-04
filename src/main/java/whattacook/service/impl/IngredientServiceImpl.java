@@ -41,7 +41,7 @@ public class IngredientServiceImpl implements IIngredientService{
 	public Ingredient modifyNameIngredient(Ingredient ingredient) {
 		List<Ingredient> ingredientList = iIngredientService.showAllIngredients();
 		for(Ingredient ingredientFor : ingredientList) {
-			if(ingredientFor.getIdingredient() == ingredient.getIdingredient()) {
+			if(ingredientFor.getId() == ingredient.getId()) {
 				ingredientFor.setName(ingredient.getName());
 				return iIngredientDao.save(ingredientFor);
 			}

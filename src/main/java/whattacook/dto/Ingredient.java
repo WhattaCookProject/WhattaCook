@@ -17,8 +17,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Ingredient {
 	
 	@Id
+	@Column(name="id_ingredient")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idingredient;
+	private long id;
 	
 	@Column(name="name")
 	private String name;
@@ -30,17 +31,17 @@ public class Ingredient {
 	public Ingredient() {
 	}
 
-	public Ingredient(long idingredient, String name) {
-		this.idingredient = idingredient;
+	public Ingredient(long id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 
-	public long getIdingredient() {
-		return idingredient;
+	public long getId() {
+		return id;
 	}
 
-	public void setIdingredient(long idingredient) {
-		this.idingredient = idingredient;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
