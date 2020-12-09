@@ -26,11 +26,11 @@ public class Recipe {
 	
 	@Column(name="text")
 	private String text;
-	
+
 	@ManyToMany
 	@JoinTable(
 			  name = "recipe_ingredient", 
-			  joinColumns = @JoinColumn(name = "idrecipe"), 
+			  joinColumns = @JoinColumn(name = "idrecipe"),
 			  inverseJoinColumns = @JoinColumn(name = "idingredient"))
 	private Set<Ingredient> isMadeWith;
 
