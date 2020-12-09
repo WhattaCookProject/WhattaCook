@@ -109,9 +109,9 @@ public class IngredientController {
 	//DELETE
 	@DeleteMapping("/{id}")
 	public HashMap<String, Object> deleteIngredient(@PathVariable Long id){
-		
+
 		HashMap<String, Object> map = new HashMap<>();
-		
+
 		try {
 			iIngredientService.deleteIngredient(id);
 			map.put("success", true);
@@ -123,5 +123,18 @@ public class IngredientController {
 		
 		return map;
 	}
-		
+
+	//return sorted list by SuccessRate
+	public HashMap<String, Object> searchEngine(){
+
+		//cargo lista de ingredientes usuario (hashmap "alacenaList")
+		HashMap<String, Object> alacenaList = iIngredientService.
+
+		//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
+				//devuelve un hash con el id de la recipe y un cont con con la cantidad de veces q aparecio
+
+		// agarro ese ultimo hash y lo mando a q me devuelva otro hash con id de recipe y SR
+
+	}
+
 }

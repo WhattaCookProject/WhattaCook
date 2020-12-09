@@ -117,10 +117,11 @@ public class RecipeController {
             map.put("message", "The recipe with the id " + id + " has deleted.");
         }catch(Exception e) {
             map.put("success", false);
-            map.put("message", "This id recipe does not exist");
-        }
+3        }
 
         return map;
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package whattacook.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,19 @@ public class IngredientServiceImpl implements IIngredientService{
 	@Override
 	public void deleteIngredient(Long id) {
 		iIngredientDao.deleteById(id);
+	}
+
+	@Override
+	public List<Long> alacenaList(){
+		List<Long> alacenaList = new ArrayList<Long>();
+
+		alacenaList.add(1);//Papa
+		alacenaList.add(2);//Cebolla
+		alacenaList.add(3);//Aceite
+		alacenaList.add(4);//Sal
+		alacenaList.add(5);//Huevo
+
+		return alacenaList;
 	}
 	
 
