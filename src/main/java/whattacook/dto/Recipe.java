@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class Recipe {
 	
 	@Id
-	@Column(name="id_recipe") //TODO modified from dev
+	@Column(name="idrecipe") //TODO modified from dev
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
@@ -26,12 +26,12 @@ public class Recipe {
 	
 	@Column(name="text")
 	private String text;
-	
+
 	@ManyToMany
 	@JoinTable(
 			  name = "recipe_ingredient", 
-			  joinColumns = @JoinColumn(name = "id_recipe"),
-			  inverseJoinColumns = @JoinColumn(name = "id_ingredient"))
+			  joinColumns = @JoinColumn(name = "idrecipe"),
+			  inverseJoinColumns = @JoinColumn(name = "idingredient"))
 	private Set<Ingredient> isMadeWith;
 
 	public Recipe() {}
