@@ -1,5 +1,6 @@
 package whattacook.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import whattacook.dto.Ingredient;
@@ -20,4 +21,10 @@ public interface IIngredientService {
 	
 	//DELETE
 	public void deleteIngredient(Long id);
+
+	//Returns alacenaList
+	List<Long> alacenaList();
+
+	//Returns HashMap with recipe id & times that is repeated
+	HashMap<Long, Integer> recipeCounter(List<Long> alacenaList);
 }

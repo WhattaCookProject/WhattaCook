@@ -126,15 +126,23 @@ public class IngredientController {
 
 	//return sorted list by SuccessRate
 	public HashMap<String, Object> searchEngine(){
+		
+		HashMap<String, Object> map = new HashMap<>();
 
-		//cargo lista de ingredientes usuario (hashmap "alacenaList")
-		HashMap<String, Object> alacenaList = iIngredientService.
-
+		//cargo lista de ingredientes del usuario ( "alacenaList")
+		List<Long> alacenaList = iIngredientService.alacenaList();
+		
 		//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
-				//devuelve un hash con el id de la recipe y un cont con con la cantidad de veces q aparecio
+		//devuelve un hash con el id de la recipe y un cont con con la cantidad de veces q aparecio
+		// retorna id(recipe) y cont
+		HashMap<String, Object> recipesCont = new HashMap<>();
+		
 
-		// agarro ese ultimo hash y lo mando a q me devuelva otro hash con id de recipe y SR
-
+		
+		// agarro ese ultimo hash (id & cont) y lo mando a q me devuelva otro hash con id de recipe y SR
+		// 
+		
+		return map;
 	}
 
 }
