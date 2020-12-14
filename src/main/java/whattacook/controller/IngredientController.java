@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import whattacook.dto.Ingredient;
 import whattacook.service.IIngredientService;
-import whattacook.service.impl.IngredientServiceImpl;
 
 @RestController
 @RequestMapping("/ingredient")
@@ -109,9 +108,9 @@ public class IngredientController {
 	//DELETE
 	@DeleteMapping("/{id}")
 	public HashMap<String, Object> deleteIngredient(@PathVariable Long id){
-		
+
 		HashMap<String, Object> map = new HashMap<>();
-		
+
 		try {
 			iIngredientService.deleteIngredient(id);
 			map.put("success", true);
@@ -123,5 +122,22 @@ public class IngredientController {
 		
 		return map;
 	}
+
+	//return sorted list by SuccessRate
+	@GetMapping("/search")
+	public HashMap<Long, Double> searchEngine(){
 		
+//		HashMap<String, Object> map = new HashMap<>();
+
+		//cargo lista de ingredientes del usuario ( "alacenaList")
+		List<Long> alacenaList = iIngredientService.alacenaList();
+		
+		//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
+		//devuelve un hash con el id de la recipe y el SR ordenadas por SR
+		HashMap<Long, Double> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
+		
+		
+		return sortedRecipes;
+	}
+
 }
