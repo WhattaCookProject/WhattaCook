@@ -1,7 +1,6 @@
 package whattacook.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,31 +69,30 @@ public class IngredientServiceImpl implements IIngredientService{
 	public List<Long> alacenaList(){
 		List<Long> alacenaList = new ArrayList<Long>();
 
-		alacenaList.add((long) 1);//Papa
-		alacenaList.add((long) 2);//Cebolla
-		alacenaList.add((long) 3);//Aceite
-		alacenaList.add((long) 4);//Sal
-		alacenaList.add((long) 5);//Huevo
+		alacenaList.add((long) 2);
+		alacenaList.add((long) 3);
+		alacenaList.add((long) 4);
+		alacenaList.add((long) 8);
+		alacenaList.add((long) 9);
 
 		return alacenaList;
 	}
 	
-	/*	Traigo lista con ids(Long) y comparo si aparece ese id en la tabla intermedia 
-	 *	guardo el id del recipe que coincide y un numero de veces q se repite
+	/*	Traigo lista con ids(Long) y comparo si coincide con algun id de ingredientes de las recipes 
+	 *	guardo el id del recipe que coincide y el SuccessRate
 	 */	
 	@Override
-	public HashMap<Long, Integer> recipeCounter(List<Long> alacenaList){
-		HashMap<Long, Integer> recipeSR = new HashMap<>();
+	public HashMap<Long, Double> recipeCounter(List<Long> alacenaList){
+		HashMap<Long, Double> recipeSR = new HashMap<>();
         List<Recipe> recipes = iRecipeService.showAllRecipes();
-        Long idIngredient;
-        int successRate;
+        double successRate;
         
         //recorro las recetas
         for(int i=0; i<recipes.size();i++) {
         	Set<Ingredient> isMadeWith = recipes.get(i).getIsMadeWith();
+        	int cont=0;
         	//por cada ingrediente
             for (Ingredient ing:isMadeWith) {
-            	int cont=0;
             	//por cada ingrediente mio
             	for(Long alacenaIng:alacenaList) {
             		//si son iguales
@@ -104,27 +102,16 @@ public class IngredientServiceImpl implements IIngredientService{
             		}
             	}
             	//almaceno la receta y la cantidad de veces que coincidio su ing con un ing mio
-            	successRate=(cont/isMadeWith.size())*100;
+            	successRate=((double)cont/(double)isMadeWith.size());
             	recipeSR.put(recipes.get(i).getId(), successRate);
               }    	
         }
-        Map<Long, Integer> recipeCountSortedByCount = recipeSR.entrySet()
+        HashMap<Long, Double> recipeCountSortedByCount = recipeSR.entrySet()
                 .stream()
-                .sorted((Map.Entry.<Long, Integer>comparingByValue().reversed()))
+                .sorted((Map.Entry.<Long, Double>comparingByValue().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
         
-        
-//        
-//		for(int i=0; i<alacenaList.size(); i++) {
-//			idIngredient =  alacenaList.get(i);
-//			
-//			for(int j=0; i<recipes.size();i++) {
-//				if(recipes.get(j).getIsMadeWith().contains(idIngredient)
-//			}	
-//		}
-//		
-		return recipeCount;
+		return recipeCountSortedByCount;
 	}
 	
 

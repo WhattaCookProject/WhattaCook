@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import whattacook.dto.Ingredient;
 import whattacook.service.IIngredientService;
-import whattacook.service.impl.IngredientServiceImpl;
 
 @RestController
 @RequestMapping("/ingredient")
@@ -125,24 +124,20 @@ public class IngredientController {
 	}
 
 	//return sorted list by SuccessRate
-	public HashMap<String, Object> searchEngine(){
+	@GetMapping("/search")
+	public HashMap<Long, Double> searchEngine(){
 		
-		HashMap<String, Object> map = new HashMap<>();
+//		HashMap<String, Object> map = new HashMap<>();
 
 		//cargo lista de ingredientes del usuario ( "alacenaList")
 		List<Long> alacenaList = iIngredientService.alacenaList();
 		
 		//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
-		//devuelve un hash con el id de la recipe y un cont con con la cantidad de veces q aparecio
-		// retorna id(recipe) y cont
-		HashMap<String, Object> recipesCont = new HashMap<>();
+		//devuelve un hash con el id de la recipe y el SR ordenadas por SR
+		HashMap<Long, Double> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
 		
-
 		
-		// agarro ese ultimo hash (id & cont) y lo mando a q me devuelva otro hash con id de recipe y SR
-		// 
-		
-		return map;
+		return sortedRecipes;
 	}
 
 }
