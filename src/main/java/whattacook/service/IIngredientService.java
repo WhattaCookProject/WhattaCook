@@ -26,5 +26,5 @@ public interface IIngredientService {
 	List<Long> alacenaList();
 
 	//Returns HashMap with recipe id & times that is repeated
-	HashMap<String, Double> recipeCounter(List<Long> alacenaList);
+	HashMap<Double, Object> recipeCounter(List<Long> alacenaList);
 }

@@ -80,8 +80,8 @@ public class IngredientServiceImpl implements IIngredientService{
 	
 	//Returns recipe's Title and SRs Sorted by SR	
 	@Override
-	public HashMap<String, Double> recipeCounter(List<Long> alacenaList){
-		HashMap<String, Double> recipeSR = new HashMap<>();
+	public HashMap<Double, Object> recipeCounter(List<Long> alacenaList){
+		HashMap<Double, Object> recipeSR = new HashMap<>();
         List<Recipe> recipes = iRecipeService.showAllRecipes();
         double successRate;
         
@@ -97,16 +97,19 @@ public class IngredientServiceImpl implements IIngredientService{
             			cont++;
             		}
             	}
-            	successRate=((double)cont/(double)isMadeWith.size());
-            	recipeSR.put(recipes.get(i).getTitle(), successRate);
-              }    	
+            }
+            if(cont>0) { // Add recipe to list if has at least 1 ingredient
+        		successRate=((double)cont/(double)isMadeWith.size());
+            	recipeSR.put(successRate,recipes.get(i)); // key = success rate --> value = recipe object
+        	}
         }
-        HashMap<String, Double> recipeCountSortedByCount = recipeSR.entrySet()
+        HashMap<Double, Object> recipeCountSortedByCount = recipeSR.entrySet()
                 .stream()
-                .sorted((Map.Entry.<String, Double>comparingByValue().reversed()))
+                .sorted((Map.Entry.<Double, Object>comparingByKey().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         
-		return recipeCountSortedByCount;
+        return recipeCountSortedByCount;
+	
 	}
 	
 
