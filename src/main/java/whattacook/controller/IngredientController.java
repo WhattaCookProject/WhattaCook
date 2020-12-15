@@ -123,21 +123,28 @@ public class IngredientController {
 		return map;
 	}
 
-	//return sorted list by SuccessRate
+	//Return sorted list by SuccessRate
 	@GetMapping("/search")
-	public HashMap<Long, Double> searchEngine(){
+	public HashMap<String, Object> searchEngine(@RequestBody List<Long> alacenaList){
 		
-//		HashMap<String, Object> map = new HashMap<>();
-
-		//cargo lista de ingredientes del usuario ( "alacenaList")
-		List<Long> alacenaList = iIngredientService.alacenaList();
+		HashMap<String, Object> map = new HashMap<>();
 		
-		//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
-		//devuelve un hash con el id de la recipe y el SR ordenadas por SR
-		HashMap<Long, Double> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
+		//Cargo lista de ingredientes del usuario ( "alacenaList")
+//		List<Long> alacenaList = iIngredientService.alacenaList();
 		
+		try {
+			//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
+			//devuelve un hash con el id de la recipe y el SR ordenadas por SR
+			HashMap<String, Double> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
+			map.put("success", true);
+			map.put("message", "Recipes that you could Cook:");
+			map.put("Recipe", sortedRecipes);
+		}catch(Exception e) {
+			map.put("success", false);
+			map.put("message","No recipes that match the ingredients you have." + e.getMessage());
+		}
 		
-		return sortedRecipes;
+		return map;
 	}
 
 }
