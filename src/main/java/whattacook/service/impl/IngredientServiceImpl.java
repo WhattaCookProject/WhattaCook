@@ -1,6 +1,5 @@
 package whattacook.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,24 +63,12 @@ public class IngredientServiceImpl implements IIngredientService{
 	public void deleteIngredient(Long id) {
 		iIngredientDao.deleteById(id);
 	}
-
-	@Override
-	public List<Long> alacenaList(){
-		List<Long> alacenaList = new ArrayList<Long>();
-
-		alacenaList.add((long) 2);
-		alacenaList.add((long) 3);
-		alacenaList.add((long) 4);
-		alacenaList.add((long) 8);
-		alacenaList.add((long) 9);
-
-		return alacenaList;
-	}
 	
-	//Returns recipe's Title and SRs Sorted by SR	
+	
+	//GET RECIPES WITH CHOOSEN INGREDIENTS + SUCCESS RATE
 	@Override
-	public HashMap<Double, Object> recipeCounter(List<Long> alacenaList){
-		HashMap<Double, Object> recipeSR = new HashMap<>();
+	public HashMap<Integer, Object> recipeCounter(List<Long> alacenaList){
+		HashMap<Integer, Object> recipeSR = new HashMap<>();
         List<Recipe> recipes = iRecipeService.showAllRecipes();
         double successRate;
         
@@ -97,15 +84,15 @@ public class IngredientServiceImpl implements IIngredientService{
             			cont++;
             		}
             	}
-            }
+            } 
             if(cont>0) { // Add recipe to list if has at least 1 ingredient
-        		successRate=((double)cont/(double)isMadeWith.size());
-            	recipeSR.put(successRate,recipes.get(i)); // key = success rate --> value = recipe object
+        		successRate=((double)cont/(double)isMadeWith.size())*100;
+            	recipeSR.put((int)successRate,recipes.get(i)); // key = success rate x100 as Integer  --> value = recipe object
         	}
         }
-        HashMap<Double, Object> recipeCountSortedByCount = recipeSR.entrySet()
+        HashMap<Integer, Object> recipeCountSortedByCount = recipeSR.entrySet()
                 .stream()
-                .sorted((Map.Entry.<Double, Object>comparingByKey().reversed()))
+                .sorted((Map.Entry.<Integer, Object>comparingByKey().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         
         return recipeCountSortedByCount;

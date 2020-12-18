@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import whattacook.dto.Ingredient;
+import whattacook.dto.ListWrapper;
 import whattacook.service.IIngredientService;
 
 @RestController
@@ -123,25 +124,31 @@ public class IngredientController {
 		return map;
 	}
 
+	
 	//Return sorted list by SuccessRate
-	@GetMapping("/search")
-	public HashMap<String, Object> searchEngine(@RequestBody List<Long> alacenaList){
+	@CrossOrigin
+	@PostMapping("/search")
+	public HashMap<String, Object> searchEngine(@RequestBody ListWrapper idList){
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
-		//Cargo lista de ingredientes del usuario ( "alacenaList")
-//		List<Long> alacenaList = iIngredientService.alacenaList();
+		List<Long> alacenaList = idList.getIdList();
 		
-		try {
-			//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
-			//devuelve un hash con el id de la recipe y el SR ordenadas por SR
-			HashMap<Double, Object> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
-			map.put("success", true);
-			map.put("message", "Recipes that you could Cook:");
-			map.put("Success Rate %", sortedRecipes);
-		}catch(Exception e) {
-			map.put("success", false);
-			map.put("message","No recipes that match the ingredients you have." + e.getMessage());
+		//Cargo lista de ingredientes del usuario ( "alacenaList")
+		if(!alacenaList.isEmpty()) {
+			try {
+				//agarro esa lista y la mando para el metodo que recorre recipes y compara con esa lista
+				//devuelve un hash con el id de la recipe y el SR ordenadas por SR
+				HashMap<Integer, Object> sortedRecipes = iIngredientService.recipeCounter(alacenaList);
+				map.put("success", true);
+				map.put("message", "Recipes that you could Cook:");
+				map.put("recipes", sortedRecipes);
+			}catch(Exception e) {
+				map.put("success", false);
+				map.put("message","No recipes that match the ingredients you have." + e.getMessage());
+			}
+		} else {
+			map.put("No list", "ingredients not found");
 		}
 		
 		return map;

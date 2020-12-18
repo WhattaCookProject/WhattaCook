@@ -22,9 +22,6 @@ public interface IIngredientService {
 	//DELETE
 	public void deleteIngredient(Long id);
 
-	//Returns alacenaList
-	List<Long> alacenaList();
-
 	//Returns HashMap with recipe id & times that is repeated
-	HashMap<Double, Object> recipeCounter(List<Long> alacenaList);
+	HashMap<Integer, Object> recipeCounter(List<Long> alacenaList);
 }
