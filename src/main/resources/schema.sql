@@ -2,35 +2,35 @@
 -- Schema whattacook
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `whattacook`;
-USE `whattacook` ;
+USE `whattacook`;
 
 -- -----------------------------------------------------
 -- Table `whattacook`.`ingredient`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `whattacook`.`ingredient` (
-  `idingredient` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_ingredient` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`idingredient`)
+  PRIMARY KEY (`id_ingredient`)
   );
 
 -- -----------------------------------------------------
 -- Table `whattacook`.`recipe`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `whattacook`.`recipe` (
-  `idrecipe` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_recipe` INT(11) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL DEFAULT NULL,
   `text` VARCHAR(45) NULL DEFAULT NULL,
-   PRIMARY KEY (`idrecipe`)
+   PRIMARY KEY (`id_recipe`)
     );
 
 -- -----------------------------------------------------
 -- Table `whattacook`.`recipe_ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `recipe_ingredient` (
-  `idrecipe` int(11) NOT NULL,
-  `idingredient` int(11) NOT NULL,
-  PRIMARY KEY (`idrecipe`,`idingredient`),
-  FOREIGN KEY (`idrecipe`) REFERENCES recipe(`idrecipe`),
-  FOREIGN KEY (`idingredient`) REFERENCES ingredient(`idingredient`)
+  `id_recipe` int(11) NOT NULL,
+  `id_ingredient` int(11) NOT NULL,
+  PRIMARY KEY (`id_recipe`,`id_ingredient`),
+  FOREIGN KEY (`id_recipe`) REFERENCES recipe(`id_recipe`),
+  FOREIGN KEY (`id_ingredient`) REFERENCES ingredient(`id_ingredient`)
 )  
 
