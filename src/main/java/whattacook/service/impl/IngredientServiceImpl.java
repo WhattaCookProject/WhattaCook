@@ -1,6 +1,5 @@
 package whattacook.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,54 +63,40 @@ public class IngredientServiceImpl implements IIngredientService{
 	public void deleteIngredient(Long id) {
 		iIngredientDao.deleteById(id);
 	}
-
-	@Override
-	public List<Long> alacenaList(){
-		List<Long> alacenaList = new ArrayList<Long>();
-
-		alacenaList.add((long) 2);
-		alacenaList.add((long) 3);
-		alacenaList.add((long) 4);
-		alacenaList.add((long) 8);
-		alacenaList.add((long) 9);
-
-		return alacenaList;
-	}
 	
-	/*	Traigo lista con ids(Long) y comparo si coincide con algun id de ingredientes de las recipes 
-	 *	guardo el id del recipe que coincide y el SuccessRate
-	 */	
+	
+	//GET RECIPES WITH CHOOSEN INGREDIENTS + SUCCESS RATE
 	@Override
-	public HashMap<Long, Double> recipeCounter(List<Long> alacenaList){
-		HashMap<Long, Double> recipeSR = new HashMap<>();
+	public HashMap<Integer, Object> recipeCounter(List<Long> alacenaList){
+		HashMap<Integer, Object> recipeSR = new HashMap<>();
         List<Recipe> recipes = iRecipeService.showAllRecipes();
         double successRate;
         
-        //recorro las recetas
+        //Recorro las recetas:
         for(int i=0; i<recipes.size();i++) {
         	Set<Ingredient> isMadeWith = recipes.get(i).getIsMadeWith();
         	int cont=0;
-        	//por cada ingrediente
+        	//Por cada ingrediente:
             for (Ingredient ing:isMadeWith) {
-            	//por cada ingrediente mio
+            	//Por cada ingrediente en alacena:
             	for(Long alacenaIng:alacenaList) {
-            		//si son iguales
             		if(alacenaIng.equals(ing.getId())) {
-            			//sumo a un contador
             			cont++;
             		}
             	}
-            	//almaceno la receta y la cantidad de veces que coincidio su ing con un ing mio
-            	successRate=((double)cont/(double)isMadeWith.size());
-            	recipeSR.put(recipes.get(i).getId(), successRate);
-              }    	
+            } 
+            if(cont>0) { // Add recipe to list if has at least 1 ingredient
+        		successRate=((double)cont/(double)isMadeWith.size())*100;
+            	recipeSR.put((int)successRate,recipes.get(i)); // key = success rate x100 as Integer  --> value = recipe object
+        	}
         }
-        HashMap<Long, Double> recipeCountSortedByCount = recipeSR.entrySet()
+        HashMap<Integer, Object> recipeCountSortedByCount = recipeSR.entrySet()
                 .stream()
-                .sorted((Map.Entry.<Long, Double>comparingByValue().reversed()))
+                .sorted((Map.Entry.<Integer, Object>comparingByKey().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         
-		return recipeCountSortedByCount;
+        return recipeCountSortedByCount;
+	
 	}
 	
 
